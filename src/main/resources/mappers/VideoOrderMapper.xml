@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.leslie.weChatLearn.mapper.VideoOrderMapper">
+
+    <!--Integer insertVideoOrder(VideoOrder videoOrder);-->
+    <insert id="insertVideoOrder" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO
+            video_order(`id`, `openid`, `out_trade_no`,
+                        `state`, `create_time`, `notify_time`,
+                        `total_fee`, `nickname`, `head_img`,
+                        `video_id`, `video_title`, `video_img`,
+                        `user_id`, `ip`, `del`
+            ) VALUES (#{id},#{openid},#{outTradeNo},#{state},#{createTime},#{notifyTime},
+                      #{totalFee},#{nickname},#{headImg},#{videoId},#{videoTitle},#{videoImg},
+                      #{userId},#{ip},#{del})
+    </insert>
+
+    <!--Integer del(@Param("id") Integer id, @Param("userId") Integer userId);-->
+    <update id="del" parameterType="cn.leslie.weChatLearn.domain.VideoOrder">
+        UPDATE video_order SET del = 0 WHERE id = #{id} AND user_id = #{userId}
+    </update>
+    <!--Integer updateVideoOrderByOutTradeNo(VideoOrder videoOrder);-->
+    <update id="updateVideoOrderByOutTradeNo" parameterType="cn.leslie.weChatLearn.domain.VideoOrder">
+        UPDATE video_order SET state = #{state}, notify_time = #{notifyTime},
+                        openid = #{openid} WHERE out_trade_no = #{outTradeNo} AND del = 0
+    </update>
+    <!--Integer findById(Integer id);-->
+    <select id="findById" resultType="cn.leslie.weChatLearn.domain.VideoOrder">
+        SELECT * FROM video_order WHERE id = #{id}
+    </select>
+
+    <!-- VideoOrder findByOutTradeNo(String outTradeNo);-->
+    <select id="findByOutTradeNo" resultType="cn.leslie.weChatLearn.domain.VideoOrder">
+        SELECT * FROM video_order WHERE out_trade_no = #{outTradeNo} AND del = 0
+    </select>
+    <!--List<VideoOrder> findAllMyOrder(Integer userId);-->
+    <select id="findAllMyOrder" resultType="cn.leslie.weChatLearn.domain.VideoOrder">
+        SELECT * FROM video_order WHERE user_id = #{userId}
+    </select>
+
+</mapper>

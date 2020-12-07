@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.leslie.weChatLearn.mapper.VideoMapper">
+    <!--List<Video> findAll();-->
+    <select id="findAll" resultType="cn.leslie.weChatLearn.domain.Video">
+        SELECT * FROM video
+    </select>
+
+    <!--Video findById(Integer id);-->
+    <select id="findById" resultType="cn.leslie.weChatLearn.domain.Video">
+        SELECT * FROM video WHERE id = #{id}
+    </select>
+
+    <!--int updateVideoInfo(Video video);-->
+    <update id="updateVideoInfo" parameterType="cn.leslie.weChatLearn.domain.Video">
+        UPDATE video
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="summary != null">
+                summary = #{summary},
+            </if>
+            <if test="coverImg != null">
+                cover_img = #{coverImg},
+            </if>
+            <if test="viewNum != null">
+                view_num = #{viewNum},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="online != null">
+                online = #{online},
+            </if>
+            <if test="point != null">
+                point = #{point},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--int deleteById(Integer id);-->
+    <delete id="deleteById" parameterType="cn.leslie.weChatLearn.domain.Video">
+        DELETE FROM video WHERE id = #{id}
+    </delete>
+
+    <!--int saveVideo(Video video);-->
+    <insert id="saveVideo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT into video(title,summary,
+            cover_img,view_num,price,
+            create_time,online,point
+        )VALUES (#{title}, #{summary},
+            #{coverImg},#{viewNum},#{price},
+            #{createTime},#{online},#{point});
+    </insert>
+
+</mapper>
